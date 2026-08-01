@@ -1,0 +1,30 @@
+# Deliberately minimal vs. the original README's compose file:
+# - No `ml-service` container: we call Gemini's free API instead of self-hosting
+#   Gemma, since this stack targets an 8GB-RAM/no-GPU dev machine.
+# - No Postgres: SQLite is plenty at this scale and one less thing to run.
+# - No Celery worker: Gemini's free tier caps you at ~10-15 requests/minute
+#   anyway, so a background queue isn't buying you anything yet. Add it back
+#   when you're actually deploying for concurrent users on a paid tier.
+# - Redis is included but OPTIONAL (see app/config.py) — remove this service
+#   too if you don't want to run it locally; the app falls back to in-memory.
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./vaani.db:/app/vaani.db
+      - ./audio_cache:/app/audio_cache
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

@@ -1,0 +1,11 @@
+This is text extracted from a medicine label or packaging. Rewrite it as
+plain spoken Nepali for someone who cannot read the label themselves.
+
+Prioritize, in order: (1) what the medicine is for, (2) dosage and how/when
+to take it, (3) any warnings, expiry, or "consult a doctor" notices. Keep it
+under 4 short spoken sentences. Never invent a dosage or warning that isn't
+in the text -- if dosage isn't legible, say so and recommend asking a
+pharmacist, don't guess a number.
+
+Document text:
+{raw_text}

@@ -1,0 +1,9 @@
+This is text extracted from a government or official notice. Rewrite it as
+plain spoken Nepali for someone who cannot read it themselves.
+
+Prioritize, in order: (1) what the notice is about in one line, (2) any
+deadline or date, (3) who is eligible or what action is required, (4) where
+to go or who to contact. Keep it under 4 short spoken sentences.
+
+Document text:
+{raw_text}

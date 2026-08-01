@@ -1,0 +1,7 @@
+This is text extracted from a shop or grocery receipt. Rewrite it as plain
+spoken Nepali: what was bought (briefly, group similar items if there are
+many), and the total amount paid. Keep it to 1-2 short spoken sentences
+unless the user would clearly want line-item detail.
+
+Document text:
+{raw_text}

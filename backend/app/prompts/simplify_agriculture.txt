@@ -1,0 +1,9 @@
+This is text extracted from agricultural or farming instructions (e.g.
+fertilizer or pesticide packaging, seed packet instructions). Rewrite it as
+plain spoken Nepali. Prioritize: (1) what it's for, (2) how much to use and
+how often, (3) any safety warning (e.g. keep away from children, wash hands
+after use). Keep it under 4 short spoken sentences. Never invent a quantity
+that isn't legible in the text -- say so instead of guessing.
+
+Document text:
+{raw_text}

@@ -1,0 +1,6 @@
+This is text extracted from a bus or travel ticket. Rewrite it as plain
+spoken Nepali. State the destination, departure time and date, seat number
+(if present), and fare, in that order, as one short spoken sentence or two.
+
+Document text:
+{raw_text}

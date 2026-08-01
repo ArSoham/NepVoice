@@ -1,0 +1,8 @@
+This is text extracted from a handwritten note, and OCR confidence on
+handwriting is lower than on printed text. Rewrite it as plain spoken
+Nepali, but if parts of the extracted text look garbled, incomplete, or
+inconsistent, say plainly "part of this note wasn't clear" rather than
+inventing a confident-sounding sentence to fill the gap.
+
+Document text:
+{raw_text}
