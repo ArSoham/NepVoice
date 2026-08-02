@@ -4,5 +4,6 @@
 
 expo-env.d.ts
 # @end expo-cli
-node_modules/
+
+node_modules
 frontend/node_modules/
