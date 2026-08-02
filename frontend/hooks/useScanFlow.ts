@@ -15,7 +15,7 @@ export function useScanFlow() {
 
   const goToResult = (input: GoToResultInput) => {
     addScan(input);
-    router.push('/result');
+    router.push({ pathname: '/result', params: { id: input.id } });
   };
 
   return { goToResult };

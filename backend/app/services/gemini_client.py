@@ -138,6 +138,37 @@ def simplify_text(raw_text: str, doc_type: str) -> str:
     return _extract_text(result)
 
 
+def summarize_all(doc_entries: list) -> str:
+    """
+    'Everything so far' overview across a session's scanned documents.
+
+    Token-efficient by design: callers should already cap doc_entries to the
+    most recent N documents, and only the doc_type + first ~200 chars of each
+    already-simplified summary are sent (never the raw OCR text). Combined
+    with the caller-side cache in routes_insights, Gemini is only called
+    again when the document set actually changes.
+    """
+    if not doc_entries:
+        return ""
+    lines = "\n".join(f"- ({t}) {s[:200]}" for t, s in doc_entries)
+    prompt = (
+        "You are a helpful voice assistant speaking plain conversational Nepali "
+        "to a low-literacy or visually impaired user. Below is a list of documents "
+        "they have scanned recently, each with its already-simplified summary. "
+        "Give ONE warm spoken overview (3-5 short sentences) that reminds them what "
+        "they've scanned overall, and calls out anything time-sensitive or important "
+        "(medicine dosage, ticket times, deadlines) if present. Do not list every "
+        "document one by one -- speak naturally, the way you'd catch someone up.\n\n"
+        + lines
+    )
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 220},
+    }
+    result = _post(cfg.GEMINI_TEXT_MODEL, payload)
+    return _extract_text(result)
+
+
 def answer_followup(raw_text: str, simplified_text: str, question: str, history: list) -> str:
     """Grounded follow-up Q&A using the original extracted text as context."""
     history_str = "\n".join(f"Q: {h['question']}\nA: {h['answer']}" for h in history[-5:])

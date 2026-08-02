@@ -19,6 +19,13 @@ export interface AskResult {
   created_at: string;
 }
 
+export interface InsightsResult {
+  total: number;
+  by_type: Record<string, number>;
+  overview: string | null;
+  audio_url: string | null;
+}
+
 export class ApiError extends Error {
   status: number;
   code: string;
@@ -110,6 +117,17 @@ export async function askQuestionAudio(audioUri: string): Promise<AskResult> {
   });
 
   const result = await parseJsonOrThrow<AskResult>(response);
+  return { ...result, audio_url: toAbsoluteUrl(result.audio_url) };
+}
+
+/** AI overview across everything scanned this session, plus category counts. */
+export async function fetchInsights(): Promise<InsightsResult> {
+  const sessionId = await getSessionId();
+  const response = await fetch(
+    `${API_BASE_URL}/api/insights?session_id=${encodeURIComponent(sessionId)}`,
+    { headers: { Accept: 'application/json' } },
+  );
+  const result = await parseJsonOrThrow<InsightsResult>(response);
   return { ...result, audio_url: toAbsoluteUrl(result.audio_url) };
 }
 

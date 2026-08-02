@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Camera, History, Home } from 'lucide-react-native';
+import { Camera, History, Sparkles } from 'lucide-react-native';
 import { colors, fontFamilies } from '@/constants/theme';
 
 export default function TabLayout() {
@@ -39,6 +39,13 @@ export default function TabLayout() {
         options={{
           title: 'History',
           tabBarIcon: ({ size, color }) => <History size={size + 4} color={color} strokeWidth={2.5} />,
+        }}
+      />
+      <Tabs.Screen
+        name="insights"
+        options={{
+          title: 'Summary',
+          tabBarIcon: ({ size, color }) => <Sparkles size={size + 4} color={color} strokeWidth={2.5} />,
         }}
       />
     </Tabs>

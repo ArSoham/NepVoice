@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, Pressable, Dimensions, Animated } from 'react-native';
+import { StyleSheet, View, Text, Pressable, useWindowDimensions, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Mic, Camera, AlertCircle, RotateCcw, Zap } from 'lucide-react-native';
@@ -8,11 +8,12 @@ import { styleForDocType } from '@/constants/docTypeStyles';
 import { useScanFlow } from '@/hooks/useScanFlow';
 import { scanDocument, ApiError } from '@/services/api';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const BUTTON_SIZE = 96;
-
 export default function CameraScreen() {
   const { goToResult } = useScanFlow();
+  // Scales with the actual screen width and re-derives on rotation/foldables,
+  // instead of a one-off Dimensions.get() snapshot taken at import time.
+  const { width: screenWidth } = useWindowDimensions();
+  const BUTTON_SIZE = Math.min(96, Math.max(76, screenWidth * 0.24));
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<'back' | 'front'>('back');
   const [flash, setFlash] = useState(false);
@@ -202,12 +203,23 @@ export default function CameraScreen() {
             disabled={processing}
             style={({ pressed }) => [
               styles.snapOuter,
-              { transform: [{ scale: pressed ? 0.92 : 1 }], opacity: processing ? 0.6 : 1 },
+              {
+                width: BUTTON_SIZE + 12,
+                height: BUTTON_SIZE + 12,
+                borderRadius: (BUTTON_SIZE + 12) / 2,
+                transform: [{ scale: pressed ? 0.92 : 1 }],
+                opacity: processing ? 0.6 : 1,
+              },
             ]}
             accessibilityRole="button"
             accessibilityLabel="Snap photo"
           >
-            <View style={styles.snapInner} />
+            <View
+              style={[
+                styles.snapInner,
+                { width: BUTTON_SIZE, height: BUTTON_SIZE, borderRadius: BUTTON_SIZE / 2 },
+              ]}
+            />
           </Pressable>
           <Text style={styles.snapLabel}>Snap Photo</Text>
         </View>
@@ -398,18 +410,12 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   snapOuter: {
-    width: BUTTON_SIZE + 12,
-    height: BUTTON_SIZE + 12,
-    borderRadius: (BUTTON_SIZE + 12) / 2,
     borderWidth: 5,
     borderColor: colors.textInverse,
     alignItems: 'center',
     justifyContent: 'center',
   },
   snapInner: {
-    width: BUTTON_SIZE,
-    height: BUTTON_SIZE,
-    borderRadius: BUTTON_SIZE / 2,
     backgroundColor: colors.primary,
     borderWidth: 4,
     borderColor: colors.surface,

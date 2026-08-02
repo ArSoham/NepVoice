@@ -28,11 +28,13 @@ def create_app():
     from app.api.routes_query import bp as query_bp
     from app.api.routes_tts import bp as tts_bp
     from app.api.routes_history import bp as history_bp
+    from app.api.routes_insights import bp as insights_bp
 
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(upload_bp, url_prefix="/api")
     app.register_blueprint(query_bp, url_prefix="/api")
     app.register_blueprint(tts_bp, url_prefix="/api")
     app.register_blueprint(history_bp, url_prefix="/api")
+    app.register_blueprint(insights_bp, url_prefix="/api")
 
     return app

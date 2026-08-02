@@ -4,8 +4,18 @@ from flask import Blueprint, send_file, jsonify
 
 from app.models.document import Document
 from app.models.conversation import Conversation
+from app.services import context_store
 
 bp = Blueprint("tts", __name__)
+
+
+@bp.get("/audio/insights/<session_id>")
+def get_insights_audio(session_id):
+    cached = context_store.get_context(f"insights:{session_id}")
+    audio_path = cached.get("audio_path") if cached else None
+    if not audio_path or not os.path.exists(audio_path):
+        return jsonify({"error": "audio not found"}), 404
+    return send_file(audio_path, mimetype="audio/mpeg")
 
 
 @bp.get("/audio/<kind>/<record_id>")

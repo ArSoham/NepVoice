@@ -20,7 +20,18 @@
       "expo-router",
       "expo-font",
       "expo-web-browser",
-      "expo-audio"
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "NepVoice needs your camera to photograph documents and read them aloud to you."
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "NepVoice needs your microphone so you can ask a spoken follow-up question."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
