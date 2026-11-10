@@ -1,6 +1,5 @@
 # NepVoice
 
-### Understand documents. Hear what matters. In Nepali.
 
 NepVoice is a voice-first mobile application that helps Nepali-speaking users understand everyday documents more easily.
 
